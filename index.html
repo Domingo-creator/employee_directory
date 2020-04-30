@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Employee Directory</title>
+        <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+        <link href = "css/style.css" rel = "stylesheet">
+
+
+    </head>
+    <body>
+        <h1 id="heading">AWESOME STARTUP EMPLOYEE DIRECTORY</h1>
+        <form>
+            <input id="search_bar" type="text" name="search_bar" placeholder="Search...">
+            <br>
+        </form>
+        <ul id="employee_list"></ul>
+        
+        <div id="profile_focus_wrapper" class="hidden">
+            <div id="profile_focus_window">
+                <div id="close_focus_container">
+                    <button id="close_focus">X</button>
+                </div>
+                <div id="profile_focus_picture"></div>
+                <div id="profile_focus_info1"></div>
+                <div id="profile_focus_info2"></div>
+            </div>
+
+            <div id="profile_focus_navigation">
+                <button id="previous">Previous</button>
+                <button id="next">Next</button>
+            </div>
+        </div>
+
+        <script src="js/app.js"></script>
+    </body>
+</html>
