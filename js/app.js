@@ -37,8 +37,8 @@ function generateEmployee(employee, employeeNum) {
     <li class="employee_box">
         <img src= ${employee.picture.thumbnail} class="thumbnail">
         <span class="name"> ${employee.name.first} ${employee.name.last}</span>
-        <p class="email"> ${employee.email}</p>
         <p class="city"> ${employee.location.city}, ${employee.location.state}</p>
+        <p class="email"> ${employee.email}</p>
         
         <div class="hidden">
             <img src= ${employee.picture.large} class="largePic">
@@ -62,16 +62,16 @@ function fillFocusProfile(profile) {
     `;
 
     profileFocuseInfo1.innerHTML = `
-        <p>${profile.querySelector('.name').innerHTML}</p>
-        <p>${profile.querySelector('.email').innerHTML}</p>
+        <p class="name">${profile.querySelector('.name').innerHTML}</p>
         <p>${profile.querySelector('.city').innerHTML}</p>
+        <p>${profile.querySelector('.email').innerHTML}</p>
     `;
 
     profileFocuseInfo2.innerHTML = `
     <p>${profile.querySelector('.phone').innerHTML}</p>
-    <span>${profile.querySelector('.street').innerHTML}, </span> 
-    <span>${profile.querySelector('.city').innerHTML}, </span>
-    <span>${profile.querySelector('.postcode').innerHTML}</span>
+    <p>${profile.querySelector('.street').innerHTML}, <p> 
+    <p>${profile.querySelector('.city').innerHTML},
+    <span>${profile.querySelector('.postcode').innerHTML}</span></p>
     <p>${profile.querySelector('.dob').innerHTML}</p>
     `;
 }
@@ -81,14 +81,22 @@ function convertDOB(dob) {
 }
 
 function searchEmployees(query) {
-    //remove hidden class from all employees 
+    //remove hidden class from all employees prior to search
     employeeList.querySelectorAll('.rejected_query').forEach( hiddenEmployee => hiddenEmployee.classList.remove('rejected_query'));
     //add hidden class to employees that dont match query
+    let currentEmployeeName;
+    let matches;
     for (let i = 0 ; i<employeeList.children.length; i++) {
-        if (!employeeList.children[i].querySelector('.name').innerHTML.toLowerCase().includes(query.toLowerCase())) {
+        currentEmployeeName = employeeList.children[i].querySelector('.name').innerHTML.trim().toLowerCase().split(' ');
+        matches = currentEmployeeName.filter( (name) => {
+                if (name.substring(0, query.length).includes(query.toLowerCase())) {
+                    return true;
+                }
+            });
+        if (matches.length === 0) {
             employeeList.children[i].classList.add('rejected_query');
         }    
-    }
+    } 
 }
 
 
@@ -110,9 +118,12 @@ employeeList.addEventListener('mouseout', event => {
     }
 });
 
+
+// OPEN PROFILE FOCUS
 employeeList.addEventListener('click', event => {
     if(event.target.tagName === 'LI') {
         profileFocus.classList.remove('hidden');
+        employeeList.classList.add('blur_background');
         fillFocusProfile(event.target);
 
     }
@@ -122,7 +133,8 @@ profileFocus.addEventListener('click', event => {
     if (event.target.tagName === 'BUTTON') {
         //CLOSE FOCUS BUTTON
         if (event.target.id === 'close_focus') {
-            profileFocus.classList.add('hidden'); 
+            profileFocus.classList.add('hidden');
+            employeeList.classList.remove('blur_background'); 
         }
         //NEXT BUTTON
         if (event.target.id === 'next') {
